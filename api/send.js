@@ -88,10 +88,19 @@
 
 
 
+
+
+
+
+
+
+
+
+
 require('dotenv').config();
 const nodemailer = require('nodemailer');
 
-// Email transporter configuration
+// Configure SMTP transporter
 const transporter = nodemailer.createTransport({
   host: "smtp.hostinger.com",
   port: 465,
@@ -112,18 +121,13 @@ async function sendMail(name, email, message) {
     to: "neshadcodes@gmail.com",
     subject: `New Contact Form Submission - ${name}`,
     html: `
-    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #eaeaea; border-radius: 5px;">
-      <h2 style="color: #18F197; text-align: center;">New Message Received</h2>
-      <div style="background-color: #f9f9f9; padding: 15px; border-radius: 5px; margin-top: 20px;">
+      <div style="font-family: Arial, sans-serif; padding: 20px;">
+        <h2 style="color: #18F197;">New Message Received</h2>
         <p><strong>Name:</strong> ${name}</p>
-        <p><strong>Email:</strong> <a href="mailto:${email}">${email}</a></p>
+        <p><strong>Email:</strong> ${email}</p>
         <p><strong>Message:</strong></p>
-        <p style="background-color: white; padding: 10px; border-radius: 3px; border-left: 3px solid #18F197;">${message}</p>
+        <p>${message}</p>
       </div>
-      <p style="text-align: center; margin-top: 30px; color: #777; font-size: 12px;">
-        This message was sent via your portfolio contact form.
-      </p>
-    </div>
     `
   };
 
@@ -133,28 +137,12 @@ async function sendMail(name, email, message) {
     to: email,
     subject: `Thanks for your message, ${name}!`,
     html: `
-    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #eaeaea; border-radius: 5px;">
-      <h2 style="color: #18F197; text-align: center;">Thank You for Reaching Out!</h2>
-      <p>Hi ${name},</p>
-      <p>I've received your message and will get back to you within 24-48 hours.</p>
-      
-      <div style="background-color: #f9f9f9; padding: 15px; border-radius: 5px; margin: 20px 0;">
+      <div style="font-family: Arial, sans-serif; padding: 20px;">
+        <h2 style="color: #18F197;">Thank You!</h2>
+        <p>I've received your message and will get back to you soon.</p>
         <p><strong>Your Message:</strong></p>
-        <p style="background-color: white; padding: 10px; border-radius: 3px;">${message}</p>
+        <p>${message}</p>
       </div>
-
-      <p>In the meantime, you can:</p>
-      <ul>
-        <li>Connect with me on <a href="https://linkedin.com/in/yourprofile" style="color: #18F197;">LinkedIn</a></li>
-        <li>Check out my <a href="https://github.com/yourprofile" style="color: #18F197;">GitHub projects</a></li>
-      </ul>
-
-      <p style="margin-top: 30px;">Best regards,<br>Neshad</p>
-      
-      <p style="text-align: center; margin-top: 30px; color: #777; font-size: 12px;">
-        This is an automated message. Please do not reply directly to this email.
-      </p>
-    </div>
     `
   };
 
@@ -176,16 +164,16 @@ module.exports = async (req, res) => {
 
   // Only accept POST requests
   if (req.method !== 'POST') {
-    return res.status(405).json({ success: false, message: 'Method not allowed' });
+    return res.status(405).json({ error: 'Method not allowed' });
   }
 
   try {
     const { name, email, message } = req.body;
 
-    // Validate required fields
+    // Basic validation
     if (!name || !email || !message) {
       return res.status(400).json({ 
-        success: false, 
+        success: false,
         message: 'All fields are required' 
       });
     }
@@ -193,19 +181,19 @@ module.exports = async (req, res) => {
     // Validate email format
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       return res.status(400).json({ 
-        success: false, 
+        success: false,
         message: 'Please enter a valid email address' 
       });
     }
 
     await sendMail(name, email, message);
-    res.status(200).json({ success: true, message: 'Emails sent successfully' });
+    res.status(200).json({ success: true, message: "Emails sent successfully" });
 
   } catch (error) {
-    console.error('Error sending email:', error);
+    console.error('Error:', error);
     res.status(500).json({ 
-      success: false, 
-      message: 'Failed to send email',
+      success: false,
+      message: "Failed to send email",
       error: error.message 
     });
   }
