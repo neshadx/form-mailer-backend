@@ -95,6 +95,104 @@
 
 
 
+// require('dotenv').config();
+// const nodemailer = require('nodemailer');
+
+// // Email configuration
+// const transporter = nodemailer.createTransport({
+//   host: "smtp.hostinger.com",
+//   port: 465,
+//   secure: true,
+//   auth: {
+//     user: "no-reply@neshad.com",
+//     pass: process.env.SMTP_PASS,
+//   },
+//   tls: {
+//     rejectUnauthorized: false
+//   }
+// });
+
+// async function sendMail(name, email, message) {
+//   try {
+//     // Email to admin
+//     await transporter.sendMail({
+//       from: '"Neshad" <no-reply@neshad.com>',
+//       to: "neshadcodes@gmail.com",
+//       subject: `New Contact: ${name}`,
+//       html: `
+//         <div>
+//           <h3>New Contact Form Submission</h3>
+//           <p><strong>Name:</strong> ${name}</p>
+//           <p><strong>Email:</strong> ${email}</p>
+//           <p><strong>Message:</strong> ${message}</p>
+//         </div>
+//       `
+//     });
+
+//     // Confirmation email to user
+//     await transporter.sendMail({
+//       from: '"Neshad" <no-reply@neshad.com>',
+//       to: email,
+//       subject: "Thanks for contacting me!",
+//       html: `
+//         <div>
+//           <h3>Thank you ${name}!</h3>
+//           <p>I've received your message and will respond within 24-48 hours.</p>
+//           <p><strong>Your message:</strong> ${message}</p>
+//         </div>
+//       `
+//     });
+
+//     return { success: true };
+//   } catch (error) {
+//     console.error("Email error:", error);
+//     throw error;
+//   }
+// }
+
+// module.exports = async (req, res) => {
+//   try {
+//     // CORS headers
+//     res.setHeader('Access-Control-Allow-Origin', '*');
+//     res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+//     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+
+//     // Handle preflight
+//     if (req.method === 'OPTIONS') {
+//       return res.status(200).end();
+//     }
+
+//     // Only allow POST
+//     if (req.method !== 'POST') {
+//       return res.status(405).json({ error: 'Method not allowed' });
+//     }
+
+//     const { name, email, message } = req.body;
+
+//     // Validation
+//     if (!name || !email || !message) {
+//       return res.status(400).json({ error: 'All fields are required' });
+//     }
+
+//     if (!/^\S+@\S+\.\S+$/.test(email)) {
+//       return res.status(400).json({ error: 'Invalid email format' });
+//     }
+
+//     await sendMail(name, email, message);
+//     res.status(200).json({ success: true });
+
+//   } catch (error) {
+//     console.error("API error:", error);
+//     res.status(500).json({ 
+//       error: 'Failed to send message',
+//       details: error.message 
+//     });
+//   }
+// };
+
+
+
+
 require('dotenv').config();
 const nodemailer = require('nodemailer');
 
@@ -151,22 +249,22 @@ async function sendMail(name, email, message) {
 }
 
 module.exports = async (req, res) => {
+  // CORS headers
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+
+  // Handle preflight
+  if (req.method === 'OPTIONS') {
+    return res.status(200).end();
+  }
+
+  // Only allow POST
+  if (req.method !== 'POST') {
+    return res.status(405).json({ error: 'Method not allowed' });
+  }
+
   try {
-    // CORS headers
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-
-    // Handle preflight
-    if (req.method === 'OPTIONS') {
-      return res.status(200).end();
-    }
-
-    // Only allow POST
-    if (req.method !== 'POST') {
-      return res.status(405).json({ error: 'Method not allowed' });
-    }
-
     const { name, email, message } = req.body;
 
     // Validation
