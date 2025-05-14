@@ -179,16 +179,11 @@ module.exports = async (req, res) => {
   try {
     // Your original email sending logic
     await transporter.sendMail({
-      from: '${name} <no-reply@neshad.com>',
+      from: '"${name} via Neshad" <no-reply@neshad.com>',
       to: "neshadcodes@gmail.com",
       subject: adminSubject,
       html: adminHTML,
       replyTo: email,
-      //  from: `"${name} via Neshad" <no-reply@neshad.com>`,
-//       to: "neshadcodes@gmail.com",
-//       subject: adminSubject,
-//       html: adminHTML,
-//       replyTo: email,
     });
 
     await transporter.sendMail({
