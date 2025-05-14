@@ -211,29 +211,21 @@ require("dotenv").config();
 const nodemailer = require("nodemailer");
 
 module.exports = async (req, res) => {
-  // ✅ CORS Headers
+  // CORS
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
 
-  // ✅ Handle preflight (CORS)
-  if (req.method === "OPTIONS") {
-    return res.status(200).end();
-  }
-
-  // ✅ Allow only POST
+  if (req.method === "OPTIONS") return res.status(200).end();
   if (req.method !== "POST") {
     return res.status(405).json({ success: false, message: "Method Not Allowed" });
   }
 
   const { name, email, message } = req.body;
-
-  // ✅ Simple validation
   if (!name || !email || !message) {
     return res.status(400).json({ success: false, message: "All fields are required" });
   }
 
-  // ✅ Setup Transporter
   const transporter = nodemailer.createTransport({
     host: "smtp.hostinger.com",
     port: 465,
@@ -247,11 +239,10 @@ module.exports = async (req, res) => {
     },
   });
 
-  // ✅ Email Templates
-  const adminSubject = `✉️ New Contact Submission – ${name}`;
+  const adminSubject = `\u2709\ufe0f New Contact Submission – ${name}`;
   const adminHTML = `
     <div style="font-family: 'Segoe UI', Roboto, sans-serif; color: #1f1f1f; line-height: 1.6;">
-      <h2 style="font-weight: 600; font-size: 20px; margin-bottom: 24px;">📬 New Message Received</h2>
+      <h2 style="font-weight: 600; font-size: 20px; margin-bottom: 24px;">\ud83d\udcec New Message Received</h2>
       <div style="background-color: #f4f4f4; padding: 20px; border-radius: 8px; border-left: 4px solid #18F197;">
         <p><strong>Name:</strong> ${name}</p>
         <p><strong>Email:</strong> <a href="mailto:${email}" style="color: #236AD3;">${email}</a></p>
@@ -274,9 +265,9 @@ module.exports = async (req, res) => {
       </p>
       <p style="margin-top: 24px;">Until then, feel free to check out:</p>
       <ul style="margin-top: 12px;">
-        <li><a href="https://linkedin.com/in/yourprofile" style="color: #18F197;">🔗 LinkedIn</a></li>
-        <li><a href="https://github.com/yourprofile" style="color: #18F197;">💻 GitHub</a></li>
-        <li><a href="https://yourdomain.com/resume.pdf" style="color: #18F197;">📄 View Resume</a></li>
+        <li><a href="https://linkedin.com/in/yourprofile" style="color: #18F197;">\ud83d\udd17 LinkedIn</a></li>
+        <li><a href="https://github.com/yourprofile" style="color: #18F197;">\ud83d\udcbb GitHub</a></li>
+        <li><a href="https://yourdomain.com/resume.pdf" style="color: #18F197;">\ud83d\udcc4 View Resume</a></li>
       </ul>
       <p style="margin-top: 40px;">
         Best regards,<br />
@@ -295,7 +286,6 @@ module.exports = async (req, res) => {
   `;
 
   try {
-    //  Admin mail (to you)
     await transporter.sendMail({
       from: `"${name} via Neshad" <no-reply@neshad.com>`,
       to: "neshadcodes@gmail.com",
@@ -304,7 +294,6 @@ module.exports = async (req, res) => {
       replyTo: email,
     });
 
-    //  Auto-reply to user
     await transporter.sendMail({
       from: '"Neshad" <no-reply@neshad.com>',
       to: email,
@@ -319,8 +308,7 @@ module.exports = async (req, res) => {
 
     res.status(200).json({ success: true, message: "Emails sent successfully" });
   } catch (err) {
-    console.error("❌ Email sending error:", err.message);
+    console.error("\u274c Email sending error:", err.message);
     res.status(500).json({ success: false, message: "Failed to send email", error: err.message });
   }
 };
-
