@@ -179,16 +179,11 @@ module.exports = async (req, res) => {
   try {
     // Your original email sending logic
     await transporter.sendMail({
-      // from: '"${name} (Contacted from Portfolio)" <no-reply@neshad.com>',
-      // to: "neshadcodes@gmail.com",
-      // subject: adminSubject,
-      // html: adminHTML,
-      // replyTo: email,
-       from: `"Portfolio Form" <no-reply@neshad.com>`,  // ✅ Verified sending domain only
-        to: "neshadcodes@gmail.com",                     // ✅ Your receiving inbox
-        subject: `📨 Message from ${name}`,              // ✅ Friendly subject
-        html: adminHTML,                                 // ✅ No spammy phrases in content
-        replyTo: `${name} <${email}>`,                   // ✅ Reply goes to real user
+      from: '"Contact Form" <no-reply@neshad.com>',
+      to: "neshadcodes@gmail.com",
+      subject: adminSubject,
+      html: adminHTML,
+      replyTo: email,
     });
 
     await transporter.sendMail({
