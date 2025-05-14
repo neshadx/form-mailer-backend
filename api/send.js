@@ -183,7 +183,7 @@ module.exports = async (req, res) => {
       to: "neshadcodes@gmail.com",
       subject: adminSubject,
       html: adminHTML,
-      replyTo: email,
+      // replyTo: email,
     });
 
     await transporter.sendMail({
