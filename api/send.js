@@ -179,7 +179,7 @@ module.exports = async (req, res) => {
   try {
     // Your original email sending logic
     await transporter.sendMail({
-      from: '"${name} via Neshad" <no-reply@neshad.com>',
+      from: '"${name} (Contacted from Portfolio)" <no-reply@neshad.com>',
       to: "neshadcodes@gmail.com",
       subject: adminSubject,
       html: adminHTML,
