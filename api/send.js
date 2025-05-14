@@ -95,12 +95,10 @@
 
 
 
-
-
 require('dotenv').config();
 const nodemailer = require('nodemailer');
 
-// Configure SMTP transporter
+// Email configuration
 const transporter = nodemailer.createTransport({
   host: "smtp.hostinger.com",
   port: 465,
@@ -115,86 +113,79 @@ const transporter = nodemailer.createTransport({
 });
 
 async function sendMail(name, email, message) {
-  // Email to admin (you)
-  const adminMail = {
-    from: '"Neshad" <no-reply@neshad.com>',
-    to: "neshadcodes@gmail.com",
-    subject: `New Contact Form Submission - ${name}`,
-    html: `
-      <div style="font-family: Arial, sans-serif; padding: 20px;">
-        <h2 style="color: #18F197;">New Message Received</h2>
-        <p><strong>Name:</strong> ${name}</p>
-        <p><strong>Email:</strong> ${email}</p>
-        <p><strong>Message:</strong></p>
-        <p>${message}</p>
-      </div>
-    `
-  };
+  try {
+    // Email to admin
+    await transporter.sendMail({
+      from: '"Neshad" <no-reply@neshad.com>',
+      to: "neshadcodes@gmail.com",
+      subject: `New Contact: ${name}`,
+      html: `
+        <div>
+          <h3>New Contact Form Submission</h3>
+          <p><strong>Name:</strong> ${name}</p>
+          <p><strong>Email:</strong> ${email}</p>
+          <p><strong>Message:</strong> ${message}</p>
+        </div>
+      `
+    });
 
-  // Email to user (confirmation)
-  const userMail = {
-    from: '"Neshad" <no-reply@neshad.com>',
-    to: email,
-    subject: `Thanks for your message, ${name}!`,
-    html: `
-      <div style="font-family: Arial, sans-serif; padding: 20px;">
-        <h2 style="color: #18F197;">Thank You!</h2>
-        <p>I've received your message and will get back to you soon.</p>
-        <p><strong>Your Message:</strong></p>
-        <p>${message}</p>
-      </div>
-    `
-  };
+    // Confirmation email to user
+    await transporter.sendMail({
+      from: '"Neshad" <no-reply@neshad.com>',
+      to: email,
+      subject: "Thanks for contacting me!",
+      html: `
+        <div>
+          <h3>Thank you ${name}!</h3>
+          <p>I've received your message and will respond within 24-48 hours.</p>
+          <p><strong>Your message:</strong> ${message}</p>
+        </div>
+      `
+    });
 
-  // Send both emails
-  await transporter.sendMail(adminMail);
-  await transporter.sendMail(userMail);
+    return { success: true };
+  } catch (error) {
+    console.error("Email error:", error);
+    throw error;
+  }
 }
 
 module.exports = async (req, res) => {
-  // Set CORS headers
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-
-  // Handle preflight request
-  if (req.method === 'OPTIONS') {
-    return res.status(200).end();
-  }
-
-  // Only accept POST requests
-  if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Method not allowed' });
-  }
-
   try {
-    const { name, email, message } = req.body;
+    // CORS headers
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
-    // Basic validation
-    if (!name || !email || !message) {
-      return res.status(400).json({ 
-        success: false,
-        message: 'All fields are required' 
-      });
+    // Handle preflight
+    if (req.method === 'OPTIONS') {
+      return res.status(200).end();
     }
 
-    // Validate email format
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      return res.status(400).json({ 
-        success: false,
-        message: 'Please enter a valid email address' 
-      });
+    // Only allow POST
+    if (req.method !== 'POST') {
+      return res.status(405).json({ error: 'Method not allowed' });
+    }
+
+    const { name, email, message } = req.body;
+
+    // Validation
+    if (!name || !email || !message) {
+      return res.status(400).json({ error: 'All fields are required' });
+    }
+
+    if (!/^\S+@\S+\.\S+$/.test(email)) {
+      return res.status(400).json({ error: 'Invalid email format' });
     }
 
     await sendMail(name, email, message);
-    res.status(200).json({ success: true, message: "Emails sent successfully" });
+    res.status(200).json({ success: true });
 
   } catch (error) {
-    console.error('Error:', error);
+    console.error("API error:", error);
     res.status(500).json({ 
-      success: false,
-      message: "Failed to send email",
-      error: error.message 
+      error: 'Failed to send message',
+      details: error.message 
     });
   }
 };
