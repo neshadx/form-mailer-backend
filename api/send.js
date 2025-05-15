@@ -257,32 +257,54 @@ module.exports = async (req, res) => {
 
   const userSubject = `Thanks for your message, ${name}!`;
   const userHTML = `
+    // <div style="font-family: 'Segoe UI', Roboto, sans-serif; color: #1f1f1f; line-height: 1.6;">
+    //   <h2 style="font-weight: 600; font-size: 20px; margin-bottom: 24px;">Hello ${name},</h2>
+    //   <p>Thanks a lot for reaching out — your message has been received!</p>
+    //   <p>I’ll get back to you within <strong>24 to 48 hours</strong>. If it’s urgent, feel free to email me directly at
+    //     <a href="mailto:neshadcodes@gmail.com" style="color: #236AD3;">neshadcodes@gmail.com</a>.
+    //   </p>
+    //   <p style="margin-top: 24px;">Until then, feel free to check out:</p>
+    //   <ul style="margin-top: 12px;">
+    //     <li><a href="https://linkedin.com/in/yourprofile" style="color: #18F197;">\ud83d\udd17 LinkedIn</a></li>
+    //     <li><a href="https://github.com/yourprofile" style="color: #18F197;">\ud83d\udcbb GitHub</a></li>
+    //     <li><a href="https://yourdomain.com/resume.pdf" style="color: #18F197;">\ud83d\udcc4 View Resume</a></li>
+    //   </ul>
+    //   <p style="margin-top: 40px;">
+    //     Best regards,<br />
+    //     <strong style="font-size: 16px;">Neshad</strong><br />
+    //     Frontend Engineer & UI Enthusiast
+    //   </p>
+    //   <hr style="margin-top: 40px;" />
+    //   <p style="font-size: 12px; color: #999;">
+    //     This is an automated response confirming we received your message.
+    //   </p>
+    //   <div style="background-color: #f1f1f1; padding: 15px; text-align: center; font-size: 12px; color: #666;">
+    //     <p style="margin: 0;">This is an automated message. Please do not reply directly to this email.</p>
+    //     <p style="margin: 5px 0 0;">© ${new Date().getFullYear()} Neshad. All rights reserved.</p>
+    //   </div>
+    // </div>
     <div style="font-family: 'Segoe UI', Roboto, sans-serif; color: #1f1f1f; line-height: 1.6;">
-      <h2 style="font-weight: 600; font-size: 20px; margin-bottom: 24px;">Hello ${name},</h2>
-      <p>Thanks a lot for reaching out — your message has been received!</p>
-      <p>I’ll get back to you within <strong>24 to 48 hours</strong>. If it’s urgent, feel free to email me directly at
-        <a href="mailto:neshadcodes@gmail.com" style="color: #236AD3;">neshadcodes@gmail.com</a>.
-      </p>
-      <p style="margin-top: 24px;">Until then, feel free to check out:</p>
-      <ul style="margin-top: 12px;">
-        <li><a href="https://linkedin.com/in/yourprofile" style="color: #18F197;">\ud83d\udd17 LinkedIn</a></li>
-        <li><a href="https://github.com/yourprofile" style="color: #18F197;">\ud83d\udcbb GitHub</a></li>
-        <li><a href="https://yourdomain.com/resume.pdf" style="color: #18F197;">\ud83d\udcc4 View Resume</a></li>
-      </ul>
-      <p style="margin-top: 40px;">
-        Best regards,<br />
-        <strong style="font-size: 16px;">Neshad</strong><br />
-        Frontend Engineer & UI Enthusiast
-      </p>
-      <hr style="margin-top: 40px;" />
-      <p style="font-size: 12px; color: #999;">
-        This is an automated response confirming we received your message.
-      </p>
-      <div style="background-color: #f1f1f1; padding: 15px; text-align: center; font-size: 12px; color: #666;">
-        <p style="margin: 0;">This is an automated message. Please do not reply directly to this email.</p>
-        <p style="margin: 5px 0 0;">© ${new Date().getFullYear()} Neshad. All rights reserved.</p>
-      </div>
-    </div>
+  <p>Hello {{to_name}},</p>
+
+  <p style="font-size: 12px;">Thanks for your message. I truly appreciate you taking the time to get in touch.</p>
+
+  <p style="font-size: 12px;">I’ve received your message and will respond within <strong>1–2 business days</strong>. If it’s urgent, feel free to email me directly at <a href="mailto:neshadcodes@gmail.com" style="color: #236AD3;">neshadcodes@gmail.com</a>.</p>
+
+  <p style="font-size: 12px;">Looking forward to connecting!</p>
+
+  <p style="margin-top: 30px; font-size: 12px;">
+    Warm regards,<br />
+    <strong>Neshad</strong><br />
+    Frontend Developer<br />
+    <a href="https://linkedin.com/in/yourprofile" style="color: #18F197;">LinkedIn</a> | <a href="https://github.com/yourprofile" style="color: #18F197;">GitHub</a>
+  </p>
+
+  <hr style="margin-top: 40px;" />
+  <p style="font-size: 10px; color: #999;">
+    This is an automated confirmation. You don’t need to reply to this email.
+  </p>
+</div>
+
   `;
 
   try {
