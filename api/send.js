@@ -270,7 +270,7 @@ module.exports = async (req, res) => {
     Warm regards,<br />
     <strong>Neshad</strong><br />
     Frontend Developer<br />
-    <a href="https://linkedin.com/in/yourprofile" style="color: #18F197;">LinkedIn</a> | <a href="https://github.com/yourprofile" style="color: #18F197;">GitHub</a>
+    <a href="https://linkedin.com/in/neshad-mahmud" style="color: #18F197;">LinkedIn</a> | <a href="https://github.com/neshadx" style="color: #18F197;">GitHub</a>
   </p>
 
   <hr style="margin-top: 40px;" />
