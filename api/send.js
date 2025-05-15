@@ -367,12 +367,12 @@ module.exports = async (req, res) => {
   const adminSubject = `✉️ New Contact Submission – ${name}`;
   const adminHTML = `
     <div style="font-family: 'Segoe UI', Roboto, sans-serif; color: #1f1f1f; line-height: 1.6;">
-      <h2 style="font-weight: 600; font-size: 20px; margin-bottom: 24px;">📬 New Message Received</h2>
+      <h2 style="font-weight: 600; font-size: 18px; margin-bottom: 24px;">📬 New Message Received</h2>
       <div style="background-color: #f4f4f4; padding: 20px; border-radius: 8px; border-left: 4px solid #18F197;">
-        <p><strong>Name:</strong> ${name}</p>
-        <p><strong>Email:</strong> <a href="mailto:${email}" style="color: #236AD3;">${email}</a></p>
-        <p><strong>Message:</strong></p>
-        <p style="margin-top: 10px;">${message}</p>
+        <p style="font-size: 14px;"><strong>Name:</strong> ${name}</p>
+        <p style="font-size: 14px;"><strong>Email:</strong> <a href="mailto:${email}" style="color: #236AD3;">${email}</a></p>
+        <p style="font-size: 14px;"><strong>Message:</strong></p>
+        <p style="margin-top: 10px; font-size: 14px;">${message}</p>
       </div>
       <p style="font-size: 13px; color: #7a7a7a; margin-top: 30px;">
         This message was sent through your personal contact form. You can reply directly to continue the conversation.
