@@ -381,7 +381,7 @@ module.exports = async (req, res) => {
   `;
 
   // Your EXACT original user auto-reply template
-  const userSubject = `Thanks for your message, ${name}!`;
+  const userSubject = `Thanks for reaching out, ${name}!`;
   const userHTML = `
     <div style="font-family: 'Segoe UI', Roboto, sans-serif; color: #1f1f1f; line-height: 1.6;">
       <p style="font-size: 12px;">Hello ${name},</p>
