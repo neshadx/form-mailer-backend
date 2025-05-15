@@ -258,7 +258,7 @@ module.exports = async (req, res) => {
   const userSubject = `Thanks for your message, ${name}!`;
   const userHTML = `
     <div style="font-family: 'Segoe UI', Roboto, sans-serif; color: #1f1f1f; line-height: 1.6;">
-  <p>Hello {{to_name}},</p>
+  <p style="font-size: 12px;">Hello ${name},</p>
 
   <p style="font-size: 12px;">Thanks for your message. I truly appreciate you taking the time to get in touch.</p>
 
