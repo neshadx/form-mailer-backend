@@ -231,7 +231,7 @@ module.exports = async (req, res) => {
     port: 465,
     secure: true,
     auth: {
-      user: "no-reply@neshad.com",
+      user: "contact@neshad.com",
       pass: process.env.SMTP_PASS,
     },
     tls: {
@@ -283,7 +283,7 @@ module.exports = async (req, res) => {
 
   try {
     await transporter.sendMail({
-      from: `"${name} via Contact Form" <no-reply@neshad.com>`,
+      from: `"${name} via Contact Form" <contact@neshad.com>`,
       to: "neshadcodes@gmail.com",
       subject: adminSubject,
       html: adminHTML,
@@ -291,7 +291,7 @@ module.exports = async (req, res) => {
     });
 
     await transporter.sendMail({
-      from: '"Neshad" <no-reply@neshad.com>',
+      from: '"Neshad" <contact@neshad.com>',
       to: email,
       subject: userSubject,
       html: userHTML,
